@@ -1,0 +1,64 @@
+{
+  "_description": "路面模量反演系统配置 - v5.3.3 (DeepSeek + OLLAMA统一版)",
+  "_version": "5.3.3-unified",
+  "_date": "2025-12",
+  "_usage": "通过修改 llm_guidance.model 切换LLM后端: 'deepseek' 或 'ollama'",
+  "ppo_backcalculation": {
+    "_comment": "PPO参数",
+    "max_episodes": 100,
+    "max_steps_per_episode": 20,
+    "early_stop_patience": 15,
+    "learning_rate": 0.0003,
+    "gamma": 0.99,
+    "clip_ratio": 0.2,
+    "hidden_dim": 128
+  },
+  "backcalculation": {
+    "convergence_threshold": 0.03,
+    "basin_shape_threshold": 0.15,
+    "max_iterations": 100,
+    "physics_constraints_enabled": false
+  },
+  "modulus_precision": {
+    "_comment": "模量输出精度控制",
+    "surface_layer_step": 50,
+    "base_layer_step": 50,
+    "subbase_layer_step": 50,
+    "subgrade_step": 5
+  },
+  "reward_weights_backcalculation": {
+    "_comment": "v5.3权重分配：D0+弯沉盆形状各30%",
+    "D0_match_weight": 0.3,
+    "basin_shape_weight": 0.3,
+    "shape_indicators_weight": 0.3,
+    "improvement_weight": 0.1
+  },
+  "llm_guidance": {
+    "enabled": true,
+    "model": "deepseek",
+    "_model_options": "可选值: 'deepseek' (在线API) 或 'ollama' (本地开源模型)",
+    "use_for_initial_estimate": true,
+    "use_for_optimization_guidance": true,
+    "guidance_interval": 5,
+    "force_structured_output": true,
+    "output_format": "CMD: AC:X%, BC:Y%, SB:Z%, SG:W%"
+  },
+  "deepseek": {
+    "_comment": "DeepSeek在线API配置",
+    "api_key": "YOUR_DEEPSEEK_API_KEY_HERE",
+    "model": "deepseek-chat",
+    "base_url": "https://api.deepseek.com/v1",
+    "max_tokens": 2000,
+    "temperature": 0.1,
+    "timeout": 30
+  },
+  "ollama": {
+    "_comment": "OLLAMA本地服务配置 (需先安装OLLAMA并下载模型)",
+    "model": "qwen2.5:7b",
+    "_model_alternatives": "可选: 'llama3:8b', 'qwen2.5:14b', 'mistral:7b'",
+    "base_url": "http://localhost:11434",
+    "max_tokens": 2000,
+    "temperature": 0.1,
+    "timeout": 60
+  }
+}
